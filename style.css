@@ -86,48 +86,6 @@ body {
   50% { opacity: 0.3; transform: scale(0.7); }
 }
 
-/* ===== Màn che khi mở trong app (Messenger...) ===== */
-.inapp:not([hidden]) {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
-}
-
-.inapp__box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: min(100%, 420px);
-  padding: 32px 20px;
-  text-align: center;
-  background: var(--card);
-  border: 3px solid var(--card-border);
-  border-radius: 28px;
-}
-
-.inapp__title {
-  font-size: 1.8rem;
-}
-
-.inapp .pill-btn {
-  width: 100%;
-}
-
-.pill-btn--light {
-  color: var(--purple-dark);
-  background: var(--white);
-}
-
-.pill-btn--light:hover {
-  background: #f3ecff;
-}
-
 /* ===== Nút nhạc ===== */
 .music-btn {
   position: fixed;
