@@ -406,9 +406,7 @@ function updateMusicBtn() {
 
 function startMusic() {
   music.currentTime = MUSIC_START;
-  return music.play().then(() => {
-    musicBtn.hidden = false;
-  });
+  return music.play();
 }
 
 // Thử phát ngay khi mở trang. Nếu trình duyệt chặn,
@@ -427,12 +425,19 @@ startMusic().catch(() => {
 });
 
 musicBtn.addEventListener("click", () => {
-  if (music.paused) music.play();
-  else music.pause();
+  if (music.paused) {
+    if (music.currentTime < MUSIC_START) music.currentTime = MUSIC_START;
+    music.play().catch(() => {});
+  } else {
+    music.pause();
+  }
 });
 
 music.addEventListener("play", updateMusicBtn);
+music.addEventListener("playing", updateMusicBtn);
 music.addEventListener("pause", updateMusicBtn);
+// Đang tải nhạc thì hiện đồng hồ cát
+music.addEventListener("waiting", () => (musicBtn.textContent = "⏳"));
 
 // ===== Màn cuối: tim bung ra từ nút =====
 const BURST_HEARTS = ["💜", "💗", "💖", "🩷"];
