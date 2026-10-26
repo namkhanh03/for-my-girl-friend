@@ -145,6 +145,16 @@ body {
   animation: pop-in 0.4s steps(4) both;
 }
 
+/* Nút ẩn trong lúc chữ đang gõ, gõ xong thì hiện dần */
+.screen button {
+  transition: opacity 0.3s, transform 0.15s, background 0.15s;
+}
+
+.screen.is-locked button {
+  opacity: 0;
+  pointer-events: none;
+}
+
 @keyframes pop-in {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }

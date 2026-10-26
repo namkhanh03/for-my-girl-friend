@@ -238,19 +238,23 @@ for (let i = 0; i < 40; i++) {
 }
 
 // ===== Hiệu ứng gõ chữ =====
+// Trả về Promise, xong khi đã gõ hết chữ
 function typeText(el, speed = 50) {
-  const text = el.dataset.type;
-  clearInterval(el._typer);
-  el.textContent = "";
-  el.classList.add("is-typing");
-  let i = 0;
-  el._typer = setInterval(() => {
-    el.textContent = text.slice(0, ++i);
-    if (i >= text.length) {
-      clearInterval(el._typer);
-      el.classList.remove("is-typing");
-    }
-  }, speed);
+  return new Promise((resolve) => {
+    const text = el.dataset.type;
+    clearInterval(el._typer);
+    el.textContent = "";
+    el.classList.add("is-typing");
+    let i = 0;
+    el._typer = setInterval(() => {
+      el.textContent = text.slice(0, ++i);
+      if (i >= text.length) {
+        clearInterval(el._typer);
+        el.classList.remove("is-typing");
+        resolve();
+      }
+    }, speed);
+  });
 }
 
 // ===== Danh sách lý do =====
@@ -332,8 +336,21 @@ function showScreen(id) {
   document.querySelectorAll(".screen").forEach((s) => {
     s.classList.toggle("is-active", s.id === id);
   });
-  document.querySelectorAll(`#${id} [data-type]`).forEach((el) => typeText(el));
   document.body.classList.toggle("is-final", id === "screen-thanks");
+
+  // Màn có chữ gõ từ từ: khoá nút cho tới khi gõ xong
+  const screen = document.getElementById(id);
+  const typers = [...screen.querySelectorAll("[data-type]")];
+  if (!typers.length) return;
+
+  const buttons = screen.querySelectorAll("button");
+  screen.classList.add("is-locked");
+  buttons.forEach((b) => (b.disabled = true));
+
+  Promise.all(typers.map((el) => typeText(el))).then(() => {
+    screen.classList.remove("is-locked");
+    buttons.forEach((b) => (b.disabled = false));
+  });
 }
 
 // ===== Mở khoá =====
