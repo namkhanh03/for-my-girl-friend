@@ -439,28 +439,6 @@ music.addEventListener("pause", updateMusicBtn);
 // Đang tải nhạc thì hiện đồng hồ cát
 music.addEventListener("waiting", () => (musicBtn.textContent = "⏳"));
 
-// Thoát web / chuyển app / tắt màn hình -> dừng nhạc.
-// Quay lại thì phát tiếp, trừ khi trước đó em đã tự tắt.
-let pausedByHide = false;
-
-function pauseOnHide() {
-  if (!music.paused) {
-    pausedByHide = true;
-    music.pause();
-  }
-}
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    pauseOnHide();
-  } else if (pausedByHide) {
-    pausedByHide = false;
-    music.play().catch(() => {});
-  }
-});
-
-window.addEventListener("pagehide", pauseOnHide);
-
 // ===== Màn cuối: tim bung ra từ nút =====
 const BURST_HEARTS = ["💜", "💗", "💖", "🩷"];
 
