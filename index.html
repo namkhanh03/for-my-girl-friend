@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unfortunately, I Love You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="sparkles" aria-hidden="true"></div>
+
+  <!-- Nhạc nền -->
+  <audio id="bg-music" src="assets/wave%20to%20earth%20-%20love.mp3" preload="auto"></audio>
+  <button class="music-btn" id="music-btn" aria-label="Bật/tắt nhạc" hidden>🔊</button>
+
+  <!-- Tim hồng trang trí, chỉ hiện ở màn cuối -->
+  <div class="final-decor" aria-hidden="true">
+    <div class="pixel-art final-decor__heart" data-art="pinkHeart" style="left: 6%; top: 4%; --s: 90px"></div>
+    <div class="pixel-art final-decor__heart" data-art="pinkHeart" style="right: 6%; top: 2%; --s: 80px"></div>
+    <div class="pixel-art final-decor__heart" data-art="pinkHeart" style="left: 1%; top: 22%; --s: 150px"></div>
+    <div class="pixel-art final-decor__heart" data-art="pinkHeart" style="right: 1%; top: 24%; --s: 140px"></div>
+    <div class="pixel-art final-decor__heart" data-art="pinkHeart" style="left: 6%; top: 58%; --s: 160px"></div>
+    <div class="pixel-art final-decor__heart" data-art="pinkHeart" style="right: 6%; top: 56%; --s: 160px"></div>
+  </div>
+
+  <main class="card">
+    <div class="card__dots" aria-hidden="true"></div>
+
+    <!-- Màn hình 1: Mở đầu -->
+    <section class="screen is-active" id="screen-start">
+      <div class="title-row">
+        <div class="art" aria-hidden="true">
+          <div class="pixel-art art__moon" data-art="moon"></div>
+          <div class="pixel-art art__star-pink" data-art="sparkle"></div>
+          <div class="pixel-art art__star-purple" data-art="star"></div>
+          <div class="pixel-art art__star-blue" data-art="tiny"></div>
+        </div>
+        <h1 class="title">
+          <span class="title__line">Unfortunately,</span>
+          <span class="title__line title__line--yellow">I Love You</span>
+        </h1>
+      </div>
+
+      <p class="subtitle">em có dám khám phá vì sao anh yêu em không ?</p>
+
+      <button class="pixel-btn" data-go="screen-disclaimer">Start</button>
+    </section>
+
+    <!-- Màn hình 2: Disclaimer -->
+    <section class="screen" id="screen-disclaimer">
+      <div class="title-row">
+        <div class="pixel-art warning" data-art="warning" aria-hidden="true"></div>
+        <h2 class="title title--small" data-type="Cảnh báo"></h2>
+      </div>
+
+      <div class="disclaimer">
+        <p class="subtitle">Trò chơi này có chứa:</p>
+        <ul class="pixel-list">
+          <li>một chút cà khịa nhẹ</li>
+          <li>và tình yêu anh không thể chối cãi</li>
+        </ul>
+      </div>
+
+      <button class="pill-btn" data-go="screen-menu">Em chấp nhận</button>
+    </section>
+
+    <!-- Màn hình 3: Menu lý do -->
+    <section class="screen" id="screen-menu">
+      <div class="title-row title-row--nowrap">
+        <div class="pixel-art heart" data-art="heart" aria-hidden="true"></div>
+        <h2 class="title title--small">Lý do anh yêu em</h2>
+        <div class="pixel-art heart" data-art="heart" aria-hidden="true"></div>
+      </div>
+
+      <!-- Nút được tạo từ REASONS trong script.js -->
+      <div class="reason-list" id="reason-list"></div>
+    </section>
+
+    <!-- Màn hình 4: Chi tiết lý do (cà khịa) -->
+    <section class="screen" id="screen-reason">
+      <h2 class="title title--small reason-title">
+        <span class="reason-title__emoji" id="reason-emoji"></span>
+        <span id="reason-title"></span>
+      </h2>
+      <p class="subtitle reason-text" id="reason-roast"></p>
+      <div class="btn-row">
+        <button class="yellow-btn" data-go="screen-menu" id="reason-rude"></button>
+        <button class="yellow-btn" data-go="screen-twist" id="reason-wait"></button>
+      </div>
+    </section>
+
+    <!-- Màn hình 5: Twist (ngọt ngào) — chưa có ảnh mẫu -->
+    <section class="screen" id="screen-twist">
+      <h2 class="title title--small">💗</h2>
+      <p class="subtitle reason-text" id="reason-twist"></p>
+      <div class="btn-row">
+        <button class="yellow-btn" data-go="screen-reason"><span>⬅️</span> Quay lại</button>
+        <button class="yellow-btn" data-go="screen-menu"><span>💜</span> Tiếp tục</button>
+      </div>
+    </section>
+
+    <!-- Màn hình 6: Còn một điều nữa (ổ khoá) -->
+    <section class="screen" id="screen-secret">
+      <p class="subtitle secret-text">Còn một điều nữa<br>anh chưa nói với em...</p>
+      <button class="lock-btn" id="lock-btn" aria-label="Mở khoá">
+        <div class="pixel-art lock" data-art="lock" aria-hidden="true"></div>
+      </button>
+      <p class="subtitle hint" id="lock-hint">(bấm để mở khoá)</p>
+
+      <!-- Hiện sau khi bấm ổ khoá -->
+      <div class="unlock-quiz" id="unlock-quiz" hidden>
+        <p class="subtitle">Điều kiện mở khoá là em phải hết dỗi anh người yêu siêu cấp đẹp trai của em</p>
+        <p class="subtitle hint">Xin vui lòng xác nhận lựa chọn của em :))</p>
+        <div class="btn-row">
+          <button class="yellow-btn" id="choice-wrong"><span>😤</span> Em sẽ không bao giờ hết dỗi anh</button>
+          <button class="yellow-btn" id="choice-right"><span>😍</span> Anh đẹp trai vậy sao mà em nỡ giận được</button>
+        </div>
+        <p class="quiz-error" id="quiz-error" hidden>❌ Em chọn sai đáp án rồi, phải chọn đáp án kia chứ</p>
+      </div>
+    </section>
+
+    <!-- Màn hình 7: Reveal (ly cà phê) -->
+    <section class="screen" id="screen-message">
+      <p class="subtitle secret-text">Còn một điều nữa<br>anh chưa nói với em...</p>
+      <p class="subtitle reveal-text" data-type="Anh thích em nhiều hơn cả cà phê sữa đá."></p>
+      <button class="icon-btn" data-go="screen-final" aria-label="Bấm vào đây">
+        <div class="pixel-art cup" data-art="cup" aria-hidden="true"></div>
+      </button>
+      <p class="subtitle hint">(bấm vào đây)</p>
+    </section>
+
+    <!-- Màn hình 8: Reveal 2 (củ dền) -->
+    <section class="screen screen--reveal" id="screen-final">
+      <p class="subtitle reveal-text reveal-text--big" data-type="Và em làm tim anh lỡ mất một nhịp."></p>
+      <button class="icon-btn" data-go="screen-nacho" aria-label="Tiếp tục">
+        <div class="pixel-art beet" data-art="beet" aria-hidden="true"></div>
+      </button>
+      <button class="subtitle hint text-btn" data-go="screen-nacho">(tiếp tục)</button>
+    </section>
+
+    <!-- Màn hình 9: Reveal 3 (nachos) -->
+    <section class="screen screen--reveal" id="screen-nacho">
+      <p class="subtitle reveal-text reveal-text--big" data-type="Ở bên em, chẳng ngày nào là ngày bình thường."></p>
+      <button class="icon-btn" data-go="screen-end" aria-label="Tiếp tục">
+        <div class="pixel-art nacho" data-art="nacho" aria-hidden="true"></div>
+      </button>
+      <button class="subtitle hint text-btn" data-go="screen-end">(tiếp tục)</button>
+    </section>
+
+    <!-- Màn hình 10: Reveal 4 (donut) -->
+    <section class="screen screen--reveal" id="screen-end">
+      <p class="subtitle reveal-text reveal-text--big" data-type="Anh chẳng biết sẽ ra sao nếu không có em."></p>
+      <div class="pixel-art donut" data-art="donut" aria-hidden="true"></div>
+      <button class="message-btn" data-go="screen-last"><span>💗</span> Một lời nhắn cuối cùng</button>
+    </section>
+
+    <!-- Màn hình 11: Lời nhắn cuối (bánh mì mèo) -->
+    <section class="screen screen--reveal" id="screen-last">
+      <p class="subtitle reveal-text reveal-text--huge" data-type="Anh yêu em nhiều lắm"></p>
+      <div class="pixel-art loaf" data-art="loaf" aria-hidden="true"></div>
+      <button class="message-btn message-btn--yellow" id="love-btn">Aww, em cũng yêu anh!</button>
+    </section>
+
+    <!-- Màn hình 12: Cảm ơn -->
+    <section class="screen" id="screen-thanks">
+      <button class="home-btn" id="home-btn" data-go="screen-start" aria-label="Về màn đầu">🏠</button>
+      <h2 class="title">
+        <span class="title__line">Cảm ơn em</span>
+        <span class="title__line title__line--yellow">vì đã hết dỗi anh</span>
+      </h2>
+      <div class="hug" aria-hidden="true">
+        <div class="pixel-art hug__heart" data-art="pinkHeart"></div>
+        <span class="hug__float" style="--x: -110px; --y: -40px; --d: 0s">♡</span>
+        <span class="hug__float" style="--x: 100px; --y: -60px; --d: -0.6s">♡</span>
+        <span class="hug__float" style="--x: -130px; --y: 50px; --d: -1.2s">♡</span>
+        <span class="hug__float" style="--x: 120px; --y: 40px; --d: -1.8s">♡</span>
+        <span class="hug__float" style="--x: -40px; --y: 90px; --d: -0.9s">♡</span>
+        <span class="hug__float" style="--x: 50px; --y: 95px; --d: -1.5s">♡</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
