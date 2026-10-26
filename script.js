@@ -420,9 +420,50 @@ function unlockMusic(e) {
     .catch(() => {}); // vẫn bị chặn thì chờ lần chạm sau
 }
 
-startMusic().catch(() => {
-  UNLOCK_EVENTS.forEach((t) => document.addEventListener(t, unlockMusic));
-});
+// ===== Mở trong app (Messenger, Facebook, Instagram, Zalo) =====
+// Trình duyệt trong app không dừng nhạc khi thoát -> bắt mở bằng trình duyệt thật
+const IN_APP = /FBAN|FBAV|FB_IAB|Messenger|Instagram|Zalo/i.test(navigator.userAgent);
+
+if (IN_APP) {
+  document.getElementById("inapp").hidden = false;
+  musicBtn.hidden = true;
+  music.preload = "none";
+
+  const url = location.href;
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isIOS) {
+    document.getElementById("inapp-guide").innerHTML =
+      'Bấm ⋯ ở góc dưới/trên màn hình<br>rồi chọn "Mở trong Safari"';
+  }
+
+  document.getElementById("inapp-open").addEventListener("click", () => {
+    if (isAndroid) {
+      // Mở bằng Chrome, không có Chrome thì mở trình duyệt mặc định
+      const noScheme = url.replace(/^https?:\/\//, "");
+      location.href =
+        `intent://${noScheme}#Intent;scheme=https;package=com.android.chrome;` +
+        `S.browser_fallback_url=${encodeURIComponent(url)};end`;
+    } else if (isIOS) {
+      location.href = "x-safari-" + url;
+    }
+  });
+
+  document.getElementById("inapp-copy").addEventListener("click", (e) => {
+    const btn = e.currentTarget;
+    const done = () => (btn.textContent = "Đã sao chép! Dán vào trình duyệt nhé");
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(done).catch(() => prompt("Sao chép link này:", url));
+    } else {
+      prompt("Sao chép link này:", url);
+    }
+  });
+} else {
+  startMusic().catch(() => {
+    UNLOCK_EVENTS.forEach((t) => document.addEventListener(t, unlockMusic));
+  });
+}
 
 musicBtn.addEventListener("click", () => {
   if (music.paused) {
